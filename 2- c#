@@ -1,0 +1,59 @@
+using System;
+
+class Investimento
+{
+    public double ValorPresente { get; set; }
+    public double TaxaJuros { get; set; } 
+    public double PeriodoTotal { get; set; } 
+
+    public Investimento(double valorPresente, double taxaJuros, double periodoTotal)
+    {
+        ValorPresente = valorPresente;
+        TaxaJuros = taxaJuros;
+        PeriodoTotal = periodoTotal;
+    }
+
+    public double CalcularRendimentoFuturo(double meses)
+    {
+        return ValorPresente * Math.Pow(1 + TaxaJuros, meses);
+    }
+}
+
+class Program
+{
+    static void Main()
+    {
+        Console.Write("Digite o Valor Presente Investido: ");
+        double valorPresente = Convert.ToDouble(Console.ReadLine());
+
+        Console.Write("Digite a Taxa de Juros (em %): ");
+        double taxaJuros = Convert.ToDouble(Console.ReadLine()) / 100;
+
+        Console.Write("Digite o Número de Meses: ");
+        int meses = Convert.ToInt32(Console.ReadLine());
+
+        Console.Write("Digite o Número de Dias: ");
+        int dias = Convert.ToInt32(Console.ReadLine());
+
+        double diasParaMeses = dias / 30.0;
+        double periodoTotal = meses + diasParaMeses;
+
+   
+        Investimento investimento = new Investimento(valorPresente, taxaJuros, periodoTotal);
+
+        Console.WriteLine("\nTabela de Rendimentos:");
+
+        Console.WriteLine("Mês | Rendimento Acumulado | Valor Após Resgate");
+        Console.WriteLine("-----------------------------------------------");
+
+        for (int i = 1; i <= meses; i++)
+        {
+            double rendimento = investimento.CalcularRendimentoFuturo(i);
+            double valorApósResgate = (i == 5) ? rendimento : -1; // Resgata no 5º mês
+
+            Console.WriteLine($"{i}   | {rendimento:C}           | {(valorApósResgate != -1 ? valorApósResgate.ToString("C") : "N/A")}");
+        }
+
+        Console.ReadLine();
+    }
+}
