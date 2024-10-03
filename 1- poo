@@ -1,0 +1,48 @@
+using System;
+
+class Investimento
+{
+    public double ValorInicial { get; set; }
+    public double TaxaJurosMensal { get; set; }
+    public int Meses { get; set; }
+    public double Dias { get; set; }
+
+    public Investimento(double valorInicial, double taxaJurosMensal, int meses, double dias)
+    {
+        ValorInicial = valorInicial;
+        TaxaJurosMensal = taxaJurosMensal / 100;
+        Meses = meses;
+        Dias = dias;
+    }
+
+    public double CalcularRendimentoFuturo()
+    {
+        double rendimentoFuturo = ValorInicial * Math.Pow(1 + TaxaJurosMensal, Meses);
+        double taxaJurosDiaria = TaxaJurosMensal / 30;
+        rendimentoFuturo *= (1 + taxaJurosDiaria * Dias);
+        return rendimentoFuturo;
+    }
+}
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        Console.Write("Informe o valor do investimento inicial: ");
+        double valorInicial = Convert.ToDouble(Console.ReadLine());
+
+        Console.Write("Informe a taxa de juros mensal (em %): ");
+        double taxaJurosMensal = Convert.ToDouble(Console.ReadLine());
+
+        Console.Write("Informe o número de meses: ");
+        int meses = 8;
+
+        Console.Write("Informe o número de dias: ");
+        double dias = 10;
+
+        Investimento investimento = new Investimento(valorInicial, taxaJurosMensal, meses, dias);
+        double rendimentoFuturo = investimento.CalcularRendimentoFuturo();
+
+        Console.WriteLine($"O rendimento futuro após {meses} meses e {dias} dias é: R$ {rendimentoFuturo:F2}");
+    }
+}
