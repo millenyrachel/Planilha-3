@@ -1,0 +1,49 @@
+using System;
+
+class Investimento
+{
+    public double ValorInicial { get; set; }
+    public double TaxaJurosMensal { get; set; }
+
+    public Investimento(double valorInicial, double taxaJurosMensal)
+    {
+        ValorInicial = valorInicial;
+        TaxaJurosMensal = taxaJurosMensal / 100;
+    }
+
+    public double CalcularMontante(int meses)
+    {
+        return ValorInicial * Math.Pow(1 + TaxaJurosMensal, meses);
+    }
+
+    public double CalcularMontanteAposResgate(int mesResgate, int mesesTotal)
+    {
+        double montanteAntesResgate = CalcularMontante(mesResgate);
+        double novoInvestimento = montanteAntesResgate; // O montante é reinvestido
+        return novoInvestimento * Math.Pow(1 + TaxaJurosMensal, mesesTotal - mesResgate);
+    }
+
+    public double MontanteFinal(int mesesTotal, int mesResgate)
+    {
+        return CalcularMontanteAposResgate(mesResgate, mesesTotal);
+    }
+}
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        Console.Write("Informe o valor do investimento inicial: ");
+        double valorInicial = Convert.ToDouble(Console.ReadLine());
+
+        Console.Write("Informe a taxa de juros mensal: ");
+        double taxaJurosMensal = Convert.ToDouble(Console.ReadLine());
+
+        Investimento investimento = new Investimento(valorInicial, taxaJurosMensal);
+        int totalMeses = 8;
+        int mesResgate = 5;
+
+        double montanteFinal = investimento.MontanteFinal(totalMeses, mesResgate);
+        Console.WriteLine($"Pós resgate no {mesResgate}º mês: R$ {montanteFinal:F2}");
+    }
+}
