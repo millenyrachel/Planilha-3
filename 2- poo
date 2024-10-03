@@ -42,12 +42,11 @@ class Program
         int totalMeses = 8;
         int mesResgate = 5;
 
-        // Cabeçalho da tabela
         Console.WriteLine("\n+------+-----------------+");
         Console.WriteLine("| Mês  | Montante (R$)  |");
         Console.WriteLine("+------+-----------------+");
 
-        // Exibe o montante para cada mês até o mês de resgate
+       
         for (int mes = 1; mes <= totalMeses; mes++)
         {
             double montante = investimento.CalcularMontante(mes);
@@ -56,7 +55,7 @@ class Program
 
         Console.WriteLine("+------+-----------------+");
 
-        // Calcula o montante final após o resgate
+        
         double montanteFinal = investimento.MontanteFinal(totalMeses, mesResgate);
         Console.WriteLine($"\nPós resgate no {mesResgate}º mês: R$ {montanteFinal:F2}");
     }
