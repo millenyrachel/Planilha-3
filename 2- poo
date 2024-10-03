@@ -19,8 +19,7 @@ class Investimento
     public double CalcularMontanteAposResgate(int mesResgate, int mesesTotal)
     {
         double montanteAntesResgate = CalcularMontante(mesResgate);
-        double novoInvestimento = montanteAntesResgate; // O montante é reinvestido
-        return novoInvestimento * Math.Pow(1 + TaxaJurosMensal, mesesTotal - mesResgate);
+        return montanteAntesResgate * Math.Pow(1 + TaxaJurosMensal, mesesTotal - mesResgate);
     }
 
     public double MontanteFinal(int mesesTotal, int mesResgate)
@@ -43,7 +42,22 @@ class Program
         int totalMeses = 8;
         int mesResgate = 5;
 
+        // Cabeçalho da tabela
+        Console.WriteLine("\n+------+-----------------+");
+        Console.WriteLine("| Mês  | Montante (R$)  |");
+        Console.WriteLine("+------+-----------------+");
+
+        // Exibe o montante para cada mês até o mês de resgate
+        for (int mes = 1; mes <= totalMeses; mes++)
+        {
+            double montante = investimento.CalcularMontante(mes);
+            Console.WriteLine($"| {mes,-4} | {montante,-15:F2} |");
+        }
+
+        Console.WriteLine("+------+-----------------+");
+
+        // Calcula o montante final após o resgate
         double montanteFinal = investimento.MontanteFinal(totalMeses, mesResgate);
-        Console.WriteLine($"Pós resgate no {mesResgate}º mês: R$ {montanteFinal:F2}");
+        Console.WriteLine($"\nPós resgate no {mesResgate}º mês: R$ {montanteFinal:F2}");
     }
 }
